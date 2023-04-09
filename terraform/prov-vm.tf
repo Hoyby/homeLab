@@ -1,39 +1,55 @@
-resource "proxmox_vm_qemu" "prov_vm1" {
-  name        = "node1"
-  desc        = "Provisioning VM"
-  vmid        = "101"
+resource "proxmox_vm_qemu" "prov_vm0" {
   target_node = "pve"
+  name        = "node0"
+  vmid        = "100"
 
-  agent = 1
+  clone = "ubuntu-cloud"
 
   scsihw   = "virtio-scsi-pci"
   bootdisk = "scsi0"
 
-  clone   = "ubuntu-cloud"
-  cores   = 2
-  sockets = 1
-  memory  = 512
-
-  network {
-    model  = "virtio"
-    bridge = "vmbr0"
-  }
-
-  # Make sure disk matches the template
-  disk {
-    storage = "fs01"
-    type    = "scsi"
-    size    = "2252M"
-  }
-
-  # Cloud-init
   os_type   = "cloud-init"
-  ipconfig0 = "ip=dhcp"
-  #   sshkeys   = file("~/.ssh/id_rsa.pub")
+  ipconfig0 = "ip=10.0.0.100/24"
+}
 
-  provisioner "remote-exec" {
-    inline = [
-      "ip a"
-    ]
-  }
+resource "proxmox_vm_qemu" "prov_vm1" {
+  target_node = "pve"
+  name        = "node1"
+  vmid        = "101"
+
+  clone = "ubuntu-cloud"
+
+  scsihw   = "virtio-scsi-pci"
+  bootdisk = "scsi0"
+
+  os_type   = "cloud-init"
+  ipconfig0 = "ip=10.0.0.101/24"
+}
+
+resource "proxmox_vm_qemu" "prov_vm2" {
+  target_node = "pve"
+  name        = "node2"
+  vmid        = "102"
+
+  clone = "ubuntu-cloud"
+
+  scsihw   = "virtio-scsi-pci"
+  bootdisk = "scsi0"
+
+  os_type   = "cloud-init"
+  ipconfig0 = "ip=10.0.0.102/24"
+}
+
+resource "proxmox_vm_qemu" "prov_vm3" {
+  target_node = "pve"
+  name        = "node3"
+  vmid        = "103"
+
+  clone = "ubuntu-cloud"
+
+  scsihw   = "virtio-scsi-pci"
+  bootdisk = "scsi0"
+
+  os_type   = "cloud-init"
+  ipconfig0 = "ip=10.0.0.103/24"
 }
