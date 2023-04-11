@@ -2,7 +2,7 @@
 
 Get the cloud image from https://cloud-images.ubuntu.com/
 
-```bash	
+```bash
 # Download cloud image
 `wget https://cloud-images.ubuntu.com/minimal/releases/jammy/release/ubuntu-22.04-minimal-cloudimg-amd64.img`
 
@@ -15,7 +15,7 @@ Get the cloud image from https://cloud-images.ubuntu.com/
 # Create the boot device
 `qm set 1000 --scsi0 fs01:1000/vm-1000-disk-0.raw`
 
-# Add cloud init drive 
+# Add cloud init drive
 `qm set 1000 --ide2 fs01:cloudinit`
 
 # Boot from the image
@@ -41,4 +41,10 @@ rancher2_access_secret = ""
 
 cipassword     = ""
 ssh_public_key = "ssh-rsa ..."
+```
+
+## ansible
+
+```
+ansible-playbook ./ansible/playbooks/init-vm.yml --user {user} -i ./ansible/inventory/hosts
 ```
