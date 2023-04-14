@@ -40,7 +40,8 @@ rancher2_access_key    = ""
 rancher2_access_secret = ""
 
 cipassword     = ""
-ssh_public_key = "ssh-rsa ..."
+private_key_file = ".../.ssh/id_rsa"
+public_key_file  = ".../.ssh/id_rsa.pub"
 ```
 
 ## ansible

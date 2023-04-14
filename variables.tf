@@ -53,8 +53,7 @@ variable "cipassword" {
 }
 
 variable "master_ips" {
-  type    = list(string)
-  default = ["10.0.0.100"]
+  type = list(string)
 }
 
 variable "worker_vmid" {
@@ -63,8 +62,7 @@ variable "worker_vmid" {
 }
 
 variable "worker_ips" {
-  type    = list(string)
-  default = ["10.0.0.110", "10.0.0.111", "10.0.0.112"]
+  type = list(string)
 }
 
 variable "networkrange" {
@@ -82,7 +80,12 @@ variable "nameserver" {
   default = ""
 }
 
-variable "ssh_public_key" {
-  type      = string
+variable "private_key_file" {
+  default   = "/home/user/.ssh/id_rsa"
+  sensitive = true
+}
+
+variable "public_key_file" {
+  default   = "/home/user/.ssh/id_rsa.pub"
   sensitive = true
 }

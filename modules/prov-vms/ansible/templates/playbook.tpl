@@ -41,20 +41,20 @@
 
       - name: allow ssh
         community.general.ufw:
-            rule: limit
+            rule: allow
             port: ssh
             proto: tcp
-
-      - name: deny incoming
-        community.general.ufw:
-            rule: deny
-            direction: in
-            state: enabled
 
       - name: allow outgoing
         community.general.ufw:
             rule: allow
             direction: out
+            state: enabled
+
+      - name: deny incoming
+        community.general.ufw:
+            rule: deny
+            direction: in
             state: enabled
 
       - name: check whether ufw status is active
