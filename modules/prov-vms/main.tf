@@ -140,15 +140,4 @@ resource "local_file" "ansible_playbook" {
   }
 }
 
-resource "local_file" "revert_ansible_playbook" {
-  depends_on = [
-    var.wait_for,
-    proxmox_vm_qemu.init_masters,
-    proxmox_vm_qemu.init_workers
-  ]
-
-  content  = templatefile("${path.module}/ansible/templates/revert-playbook.tpl", {})
-  filename = "${path.module}/ansible/revert-playbook.yml"
-}
-
 
