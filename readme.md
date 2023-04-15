@@ -1,3 +1,7 @@
+# Home Lab
+
+## Introduction
+
 ## Set up cloud image
 
 Get the cloud image from https://cloud-images.ubuntu.com/

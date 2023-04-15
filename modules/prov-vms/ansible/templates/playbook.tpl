@@ -16,6 +16,12 @@
             state: present
             update_cache: true
         become: true
+      - name: start qemu-guest-agent
+        service:
+            name: qemu-guest-agent
+            state: started
+            enabled: yes
+        become: true
 
 - name: Set timezone and configure timesyncd
   hosts: '*'

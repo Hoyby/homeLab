@@ -14,6 +14,7 @@ resource "proxmox_vm_qemu" "init_masters" {
   name        = "k3s-master-${count.index}"
   vmid        = var.master_vmid + count.index
   clone       = var.template_vm_name
+  agent       = 1
 
   scsihw   = "virtio-scsi-pci"
   bootdisk = "scsi0"
@@ -56,6 +57,8 @@ resource "proxmox_vm_qemu" "init_workers" {
   name        = "k3s-worker-${count.index}"
   vmid        = var.worker_vmid + count.index
   clone       = var.template_vm_name
+  agent       = 1 // init as 0 as qemu daemon is not installed on the template (enable this after installing)
+
 
   scsihw   = "virtio-scsi-pci"
   bootdisk = "scsi0"
@@ -140,4 +143,18 @@ resource "local_file" "ansible_playbook" {
   }
 }
 
+resource "local_file" "reboot" {
+  depends_on = [
+    proxmox_vm_qemu.init_masters,
+    proxmox_vm_qemu.init_workers,
+    local_file.ansible_playbook
+  ]
 
+  content  = templatefile("${path.module}/ansible/templates/reboot.tpl", {})
+  filename = "${path.module}/ansible/reboot.yml"
+
+  provisioner "local-exec" {
+    working_dir = "${path.module}/ansible"
+    command     = "ansible-playbook -i inventory reboot.yml"
+  }
+}
