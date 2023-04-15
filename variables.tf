@@ -1,31 +1,15 @@
 variable "proxmox_api_url" {
-  type      = string
-  sensitive = true
+  type = string
 }
 
 variable "proxmox_api_token_id" {
-  type      = string
-  sensitive = true
+  type = string
 }
 
 variable "proxmox_api_token_secret" {
   type      = string
   sensitive = true
 }
-
-# variable "rancher2_url" {
-#   type = string
-# }
-
-# variable "rancher2_access_key" {
-#   type      = string
-#   sensitive = true
-# }
-
-# variable "rancher2_access_secret" {
-#   type      = string
-#   sensitive = true
-# }
 
 variable "pm_node_name" {
   type    = string
@@ -81,11 +65,11 @@ variable "nameserver" {
 }
 
 variable "private_key_file" {
-  default   = "/home/user/.ssh/id_rsa"
+  default   = "~/.ssh/id_rsa"
   sensitive = true
 }
 
 variable "public_key_file" {
-  default   = "/home/user/.ssh/id_rsa.pub"
+  default   = "~/.ssh/id_rsa.pub"
   sensitive = true
 }

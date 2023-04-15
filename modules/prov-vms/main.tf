@@ -7,7 +7,6 @@ terraform {
   }
 }
 
-
 resource "proxmox_vm_qemu" "init_masters" {
   count       = 3
   target_node = var.pm_node_name
@@ -25,7 +24,7 @@ resource "proxmox_vm_qemu" "init_masters" {
   cipassword = var.cipassword
   ipconfig0  = "ip=${var.master_ips[count.index]}/${var.networkrange},gw=${var.networkgateway}"
   nameserver = var.nameserver
-  sshkeys    = file(abspath(var.public_key_file))
+  sshkeys    = file(var.public_key_file)
 
   lifecycle {
     ignore_changes = [
@@ -41,7 +40,7 @@ resource "proxmox_vm_qemu" "init_masters" {
     connection {
       host        = var.master_ips[count.index]
       user        = var.ciuser
-      private_key = file(abspath(var.private_key_file))
+      private_key = file(var.private_key_file)
     }
     inline = [
       "echo 'Waiting for cloud-init to complete...'",
@@ -59,7 +58,6 @@ resource "proxmox_vm_qemu" "init_workers" {
   clone       = var.template_vm_name
   agent       = 1 // init as 0 as qemu daemon is not installed on the template (enable this after installing)
 
-
   scsihw   = "virtio-scsi-pci"
   bootdisk = "scsi0"
   oncreate = true
@@ -69,7 +67,7 @@ resource "proxmox_vm_qemu" "init_workers" {
   cipassword = var.cipassword
   ipconfig0  = "ip=${var.worker_ips[count.index]}/${var.networkrange},gw=${var.networkgateway}"
   nameserver = var.nameserver
-  sshkeys    = file(abspath(var.public_key_file))
+  sshkeys    = file(var.public_key_file)
 
   lifecycle {
     ignore_changes = [
@@ -85,7 +83,7 @@ resource "proxmox_vm_qemu" "init_workers" {
     connection {
       host        = var.master_ips[count.index]
       user        = var.ciuser
-      private_key = file(abspath(var.private_key_file))
+      private_key = file(var.private_key_file)
     }
     inline = [
       "echo 'Waiting for cloud-init to complete...'",
@@ -94,8 +92,6 @@ resource "proxmox_vm_qemu" "init_workers" {
     ]
   }
 }
-
-
 
 resource "local_file" "ansible_inventory" {
   depends_on = [
